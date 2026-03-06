@@ -363,6 +363,8 @@
     "smartScanNoNextAction": "Для этого QR нет доступного следующего действия",
     "smartScanTransitionDone": "Статус успешно обновлен",
     "smartScanTransitionError": "Не удалось перевести QR в следующий статус",
+    "courierHandoverCard": "Выдача курьеру",
+    "courierHandoverCardDescription": "Сканировать QR ящика и выдать курьеру",
     "currentCard": "Операции внутри РЦ",
     "currentCardDescription": "Сканирование и переход по этапам",
     "historyCard": "История",
@@ -529,7 +531,8 @@
       "received": "Принятые заказы",
       "sentToSorting": "Отправленные в сортировку",
       "sorted": "Отсортированные заказы",
-      "issued": "Выданные заказы"
+      "issued": "Выданные заказы",
+      "delivered": "Доставленные в точку"
     },
     "placeholderTitle": "Раздел в разработке",
     "placeholderDescription": "Эта вкладка пока пустая, скоро здесь появятся данные.",
@@ -554,15 +557,43 @@
       "receivedAtDc": "Принято на РЦ",
       "movedToSorting": "Отправлено в сортировку",
       "sortedToZone": "Отсортировано по зонам",
-      "handedToCourier2": "Выдано курьеру"
+      "handedToCourier2": "Выдано курьеру",
+      "delivered": "Доставлено в точку"
     },
     "table": {
       "actor": "Кто принял",
+      "deliveredBy": "Кто доставил",
       "sku": "Что",
       "destination": "Куда",
       "quantity": "Сколько",
       "qr": "QR",
-      "scannedAt": "Когда"
-    }
+      "scannedAt": "Когда",
+      "deliveredAt": "Когда доставлено"
+    },
+    "emptyDeliveredTitle": "Нет доставленных заказов",
+    "emptyDeliveredDescription": "Здесь появятся заказы после подтверждения доставки курьером в финальную точку.",
+    "unknownCourier": "Курьер не указан"
+  },
+  "CourierHandover": {
+    "title": "Выдача курьеру",
+    "subtitle": "Отсканируйте QR ящика, чтобы выдать его курьеру",
+    "back": "Назад",
+    "scanButton": "Сканировать QR ящика",
+    "scanning": "Сканирование...",
+    "confirming": "Выдаю...",
+    "confirmHandover": "Подтвердить выдачу",
+    "cancel": "Отмена",
+    "courierLabel": "Курьер",
+    "orderLabel": "Заказ",
+    "phoneLabel": "Телефон",
+    "noName": "Имя не указано",
+    "confirmTitle": "Выдать курьеру?",
+    "confirmDescription": "Убедитесь, что курьер перед вами соответствует данным ниже.",
+    "successToast": "Ящик выдан курьеру",
+    "errorNotFound": "Ящик не найден или курьер не назначен",
+    "errorHandover": "Не удалось выдать ящик",
+    "scanAnother": "Сканировать ещё",
+    "doneTitle": "Выдано!",
+    "doneDescription": "Ящик передан курьеру. Заказ в пути к получателю."
   }
 }

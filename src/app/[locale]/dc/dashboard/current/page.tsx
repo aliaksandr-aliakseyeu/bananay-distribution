@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { DcQrScanDialog } from '@/components/dc/dc-qr-scan-dialog';
 import { dcApi, type DcBox, type DcItemPhase } from '@/lib/api/dc';
 import { getAllowedActions, type DcActionKey } from '@/lib/dc-phase';
+import { CourierHandoverDialog } from '@/components/dc/courier-handover-dialog';
 import { Package, RefreshCw, QrCode } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -53,6 +54,7 @@ export default function DcCurrentPage() {
   const [scanOpen, setScanOpen] = useState(false);
   const [scanActionKey, setScanActionKey] = useState<DcActionKey | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [handoverQr, setHandoverQr] = useState<string | null>(null);
 
   const load = async () => {
     try {
@@ -101,13 +103,17 @@ export default function DcCurrentPage() {
 
   const runScan = async (qrToken: string) => {
     if (!scanActionKey) return;
+    // Courier handover → show courier info dialog, do NOT execute yet
+    if (scanActionKey === 'scanHandoverCourier2') {
+      setScanOpen(false);
+      setHandoverQr(qrToken);
+      return;
+    }
     try {
       if (scanActionKey === 'scanMoveToSorting') {
         await dcApi.scanMoveToSorting(qrToken);
-      } else if (scanActionKey === 'scanSortToZone') {
-        await dcApi.scanSortToZone(qrToken);
       } else {
-        await dcApi.scanHandoverCourier2(qrToken);
+        await dcApi.scanSortToZone(qrToken);
       }
       toast.success(t('scanSuccess'));
       await load();
@@ -294,6 +300,14 @@ export default function DcCurrentPage() {
         </div>
       </div>
       <DcQrScanDialog open={scanOpen} onOpenChange={setScanOpen} onScan={runScan} />
+      <CourierHandoverDialog
+        qrToken={handoverQr}
+        onClose={() => setHandoverQr(null)}
+        onSuccess={() => {
+          toast.success(t('scanSuccess'));
+          load();
+        }}
+      />
     </RequireDcAuth>
   );
 }

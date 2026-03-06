@@ -7,14 +7,14 @@ import { BackButton } from '@/components/ui/back-button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { PageLoading } from '@/components/ui/page-loading';
 import { Button } from '@/components/ui/button';
-import { dcApi, type DcHistoryEvent, type DcItemPhase } from '@/lib/api/dc';
+import { dcApi, type DcDeliveredEvent, type DcHistoryEvent, type DcItemPhase } from '@/lib/api/dc';
 import { RefreshCw, History, PackageCheck, ChevronDown, ChevronUp } from 'lucide-react';
 
-type HistoryTab = 'received' | 'sentToSorting' | 'sorted' | 'issued';
+type HistoryTab = 'received' | 'sentToSorting' | 'sorted' | 'issued' | 'delivered';
 type DatePreset = 'all' | 'today' | 'yesterday' | '7d' | '30d' | 'custom';
 type SortOrder = 'newest' | 'oldest';
 const ITEMS_PER_PAGE = 2;
-const TAB_PHASE_MAP: Record<HistoryTab, DcItemPhase> = {
+const TAB_PHASE_MAP: Record<Exclude<HistoryTab, 'delivered'>, DcItemPhase> = {
   received: 'received_at_dc',
   sentToSorting: 'moved_to_sorting',
   sorted: 'sorted_to_zone',
@@ -51,12 +51,15 @@ export default function DcHistoryPage() {
     sentToSorting: [],
     sorted: [],
     issued: [],
+    delivered: [],
   });
+  const [deliveredItems, setDeliveredItems] = useState<DcDeliveredEvent[]>([]);
   const [currentPageByTab, setCurrentPageByTab] = useState<Record<HistoryTab, number>>({
     received: 1,
     sentToSorting: 1,
     sorted: 1,
     issued: 1,
+    delivered: 1,
   });
   const [expandedOrders, setExpandedOrders] = useState<Record<number, boolean>>({});
   const [isLoading, setIsLoading] = useState(true);
@@ -66,11 +69,12 @@ export default function DcHistoryPage() {
   const load = async () => {
     try {
       setError(null);
-      const [received, sentToSorting, sorted, issued] = await Promise.all([
+      const [received, sentToSorting, sorted, issued, delivered] = await Promise.all([
         dcApi.getHistoryEvents(TAB_PHASE_MAP.received),
         dcApi.getHistoryEvents(TAB_PHASE_MAP.sentToSorting),
         dcApi.getHistoryEvents(TAB_PHASE_MAP.sorted),
         dcApi.getHistoryEvents(TAB_PHASE_MAP.issued),
+        dcApi.getHistoryDelivered(),
       ]);
       const sortByScannedAtDesc = (rows: DcHistoryEvent[]) =>
         rows.sort((a, b) => new Date(b.scanned_at || 0).getTime() - new Date(a.scanned_at || 0).getTime());
@@ -79,7 +83,13 @@ export default function DcHistoryPage() {
         sentToSorting: sortByScannedAtDesc(sentToSorting),
         sorted: sortByScannedAtDesc(sorted),
         issued: sortByScannedAtDesc(issued),
+        delivered: [],
       });
+      setDeliveredItems(
+        delivered.sort(
+          (a, b) => new Date(b.delivered_at || 0).getTime() - new Date(a.delivered_at || 0).getTime()
+        )
+      );
       setExpandedOrders({});
     } catch (err) {
       setError(err instanceof Error ? err.message : t('errorLoading'));
@@ -100,12 +110,19 @@ export default function DcHistoryPage() {
 
   const actorOptions = useMemo(() => {
     const names = new Set<string>();
-    for (const item of itemsByTab[activeTab]) {
-      const name = (item.actor_name || '').trim();
-      if (name) names.add(name);
+    if (activeTab === 'delivered') {
+      for (const item of deliveredItems) {
+        const name = (item.courier_name || '').trim();
+        if (name) names.add(name);
+      }
+    } else {
+      for (const item of itemsByTab[activeTab]) {
+        const name = (item.actor_name || '').trim();
+        if (name) names.add(name);
+      }
     }
     return Array.from(names).sort((a, b) => a.localeCompare(b));
-  }, [itemsByTab, activeTab]);
+  }, [itemsByTab, activeTab, deliveredItems]);
 
   const matchesDatePreset = (dateMs: number) => {
     if (datePreset === 'all') return true;
@@ -168,6 +185,31 @@ export default function DcHistoryPage() {
     return haystack.includes(query);
   };
 
+  const matchesDeliveredFilters = (item: DcDeliveredEvent) => {
+    const deliveredAtMs = new Date(item.delivered_at || 0).getTime();
+    if (!Number.isFinite(deliveredAtMs)) return false;
+
+    const courierName = (item.courier_name || '').trim();
+    if (actorFilter !== 'all' && courierName !== actorFilter) return false;
+    if (!matchesDatePreset(deliveredAtMs)) return false;
+    if (!matchesCustomDateRange(deliveredAtMs)) return false;
+
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return true;
+
+    const haystack = [
+      item.order_number ?? String(item.order_id),
+      item.qr_token,
+      item.sku_name ?? '',
+      item.delivery_point_name ?? '',
+      courierName,
+      String(item.quantity ?? ''),
+    ]
+      .join(' ')
+      .toLowerCase();
+    return haystack.includes(query);
+  };
+
   const receivedOrders = useMemo<ReceivedOrderHistory[]>(() => {
     const grouped: Record<number, ReceivedOrderHistory> = {};
     const filteredRows = itemsByTab.received.filter(matchesEventFilters);
@@ -200,6 +242,7 @@ export default function DcHistoryPage() {
     });
   }, [itemsByTab.received, actorFilter, datePreset, dateFrom, dateTo, searchQuery, sortOrder]);
   const activeTabItems = useMemo(() => {
+    if (activeTab === 'delivered') return [];
     const rows = itemsByTab[activeTab].filter(matchesEventFilters);
     return rows.sort((a, b) => {
       const left = new Date(a.scanned_at || 0).getTime();
@@ -207,10 +250,27 @@ export default function DcHistoryPage() {
       return sortOrder === 'newest' ? right - left : left - right;
     });
   }, [itemsByTab, activeTab, actorFilter, datePreset, dateFrom, dateTo, searchQuery, sortOrder]);
-  const baseTotalItems = activeTab === 'received'
-    ? new Set(itemsByTab.received.map((row) => row.order_id)).size
-    : itemsByTab[activeTab].length;
-  const activeTotalItems = activeTab === 'received' ? receivedOrders.length : activeTabItems.length;
+
+  const filteredDeliveredItems = useMemo(() => {
+    const rows = deliveredItems.filter(matchesDeliveredFilters);
+    return rows.sort((a, b) => {
+      const left = new Date(a.delivered_at || 0).getTime();
+      const right = new Date(b.delivered_at || 0).getTime();
+      return sortOrder === 'newest' ? right - left : left - right;
+    });
+  }, [deliveredItems, actorFilter, datePreset, dateFrom, dateTo, searchQuery, sortOrder]);
+  const baseTotalItems =
+    activeTab === 'delivered'
+      ? deliveredItems.length
+      : activeTab === 'received'
+        ? new Set(itemsByTab.received.map((row) => row.order_id)).size
+        : itemsByTab[activeTab].length;
+  const activeTotalItems =
+    activeTab === 'delivered'
+      ? filteredDeliveredItems.length
+      : activeTab === 'received'
+        ? receivedOrders.length
+        : activeTabItems.length;
   const totalPages = Math.max(1, Math.ceil(activeTotalItems / ITEMS_PER_PAGE));
   const currentPage = Math.min(currentPageByTab[activeTab], totalPages);
   const showingFrom = activeTotalItems === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
@@ -222,6 +282,14 @@ export default function DcHistoryPage() {
   const pagedActiveTabItems = useMemo(
     () => activeTabItems.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE),
     [activeTabItems, currentPage]
+  );
+  const pagedDeliveredItems = useMemo(
+    () =>
+      filteredDeliveredItems.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+      ),
+    [filteredDeliveredItems, currentPage]
   );
   useEffect(() => {
     setCurrentPageByTab((prev) => ({ ...prev, [activeTab]: 1 }));
@@ -328,6 +396,19 @@ export default function DcHistoryPage() {
                   }`}
                 >
                   {t('tabs.issued')}
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === 'delivered'}
+                  onClick={() => setActiveTab('delivered')}
+                  className={`-mb-px rounded-t-md border px-4 py-2 text-sm font-medium transition-colors ${
+                    activeTab === 'delivered'
+                      ? 'border-gray-300 border-b-white bg-white text-gray-900 shadow-sm'
+                      : 'border-transparent bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {t('tabs.delivered')}
                 </button>
               </div>
             </div>
@@ -485,7 +566,55 @@ export default function DcHistoryPage() {
               </div>
             )}
 
-            {!error && activeTab !== 'received' && activeTabItems.length === 0 && (
+            {!error && activeTab === 'delivered' && filteredDeliveredItems.length === 0 && (
+              <div className="rounded-lg p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                  <History className="h-8 w-8 text-gray-400" />
+                </div>
+                <h2 className="text-lg font-semibold text-gray-900 mb-2">
+                  {baseTotalItems > 0 ? t('emptyFilteredTitle') : t('emptyDeliveredTitle')}
+                </h2>
+                <p className="text-gray-600">
+                  {baseTotalItems > 0 ? t('emptyFilteredDescription') : t('emptyDeliveredDescription')}
+                </p>
+              </div>
+            )}
+
+            {!error && activeTab === 'delivered' && filteredDeliveredItems.length > 0 && (
+              <div className="space-y-3">
+                {pagedDeliveredItems.map((item) => (
+                  <div
+                    key={item.task_id}
+                    className="rounded-lg border border-gray-200 p-4"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <h2 className="font-semibold text-gray-900">
+                        {t('pointLabel')} {item.qr_token.slice(0, 8)}...{item.qr_token.slice(-6)}
+                      </h2>
+                      <span className="text-xs text-green-700 bg-green-50 rounded-full px-2.5 py-1">
+                        {t('phaseStatus.delivered')}
+                      </span>
+                    </div>
+                    <div className="mt-2 text-sm text-gray-600 space-y-1">
+                      <p>
+                        {t('table.deliveredBy')}: {item.courier_name ?? t('unknownCourier')}
+                      </p>
+                      <p>
+                        {t('orderLabel')} {item.order_number ?? item.order_id}
+                      </p>
+                      <p>{item.sku_name ?? t('unknownSku')}</p>
+                      <p>{item.delivery_point_name ?? t('unknownPoint')}</p>
+                      <p>{t('table.quantity')}: {item.quantity ?? 0}</p>
+                      <p>
+                        {t('table.deliveredAt')}: {item.delivered_at ? new Date(item.delivered_at).toLocaleString() : '—'}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {!error && activeTab !== 'received' && activeTab !== 'delivered' && activeTabItems.length === 0 && (
               <div className="rounded-lg p-8 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
                   <History className="h-8 w-8 text-gray-400" />
@@ -499,7 +628,7 @@ export default function DcHistoryPage() {
               </div>
             )}
 
-            {!error && activeTab !== 'received' && activeTabItems.length > 0 && (
+            {!error && activeTab !== 'received' && activeTab !== 'delivered' && activeTabItems.length > 0 && (
               <div className="space-y-3">
                 {pagedActiveTabItems.map((item) => (
                   <div
