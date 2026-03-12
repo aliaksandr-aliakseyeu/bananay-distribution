@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { DcQrScanDialog } from '@/components/dc/dc-qr-scan-dialog';
 import { dcApi, type DcBox, type DcItemPhase } from '@/lib/api/dc';
 import { getAllowedActions, type DcActionKey } from '@/lib/dc-phase';
+import { CourierHandoverDialog } from '@/components/dc/courier-handover-dialog';
 import { Package, RefreshCw, QrCode } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -53,6 +54,7 @@ export default function DcCurrentPage() {
   const [scanOpen, setScanOpen] = useState(false);
   const [scanActionKey, setScanActionKey] = useState<DcActionKey | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [handoverQr, setHandoverQr] = useState<string | null>(null);
 
   const load = async () => {
     try {
@@ -101,13 +103,17 @@ export default function DcCurrentPage() {
 
   const runScan = async (qrToken: string) => {
     if (!scanActionKey) return;
+    // Courier handover → show courier info dialog, do NOT execute yet
+    if (scanActionKey === 'scanHandoverCourier2') {
+      setScanOpen(false);
+      setHandoverQr(qrToken);
+      return;
+    }
     try {
       if (scanActionKey === 'scanMoveToSorting') {
         await dcApi.scanMoveToSorting(qrToken);
-      } else if (scanActionKey === 'scanSortToZone') {
-        await dcApi.scanSortToZone(qrToken);
       } else {
-        await dcApi.scanHandoverCourier2(qrToken);
+        await dcApi.scanSortToZone(qrToken);
       }
       toast.success(t('scanSuccess'));
       await load();
@@ -127,8 +133,8 @@ export default function DcCurrentPage() {
 
   return (
     <RequireDcAuth>
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
             <div className="flex items-center gap-4">
               <BackButton href="/dashboard">{t('back')}</BackButton>
@@ -294,6 +300,14 @@ export default function DcCurrentPage() {
         </div>
       </div>
       <DcQrScanDialog open={scanOpen} onOpenChange={setScanOpen} onScan={runScan} />
+      <CourierHandoverDialog
+        qrToken={handoverQr}
+        onClose={() => setHandoverQr(null)}
+        onSuccess={() => {
+          toast.success(t('scanSuccess'));
+          load();
+        }}
+      />
     </RequireDcAuth>
   );
 }

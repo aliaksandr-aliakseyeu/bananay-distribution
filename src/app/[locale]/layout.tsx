@@ -26,7 +26,7 @@ export default async function LocaleLayout({
       <Providers>
         <div className="flex min-h-screen flex-col bg-gray-50">
           <Header />
-          <main className="flex-1 flex flex-col bg-gray-50">{children}</main>
+          <main className="flex-1 flex flex-col w-full min-h-0 bg-gray-50">{children}</main>
           <Footer />
         </div>
         <Toaster />

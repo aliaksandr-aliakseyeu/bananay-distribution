@@ -8,6 +8,8 @@ import { LanguageSwitcher } from './language-switcher';
 import { Button } from '@/components/ui/button';
 import { useDcAuthStore } from '@/lib/stores/dc-auth-store';
 import { LogOut, Menu, X } from 'lucide-react';
+import Image from 'next/image';
+import { APP_NAME } from '@/lib/site-config';
 
 export function Header() {
   const t = useTranslations('Header');
@@ -26,10 +28,19 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-[9999] w-full border-b bg-background/95 backdrop-blur">
+    <header className="sticky top-0 z-[9999] w-full border-b bg-background/95 backdrop-blur overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
-        <Link href={isAuthenticated ? '/dashboard' : '/login'} className="flex items-center">
-          <span className="text-2xl font-bold text-[#1e3a8a]">Bananay</span>
+        <Link href={isAuthenticated ? '/dc/dashboard' : '/'} className="flex items-center gap-1 shrink-0">
+          <Image
+            src="/bananay-logo-transparent.png"
+            alt="Bananay"
+            width={240}
+            height={72}
+            className="h-8 w-auto object-contain object-center"
+            priority
+            unoptimized
+          />
+          <span className="text-base italic font-medium text-[#3a9cf5] opacity-90 mt-[3px]">{APP_NAME}</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-3">

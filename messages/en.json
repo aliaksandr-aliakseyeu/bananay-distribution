@@ -11,6 +11,36 @@
     "signInButton": "Sign in",
     "registerButton": "Start working"
   },
+  "HowItWorks": {
+    "title": "How it works",
+    "step1Title": "Receive cargo",
+    "step1Desc": "Receive goods from drivers.",
+    "step2Title": "Sort and scan",
+    "step2Desc": "Process goods inside the hub.",
+    "step3Title": "Hand over for delivery",
+    "step3Desc": "Hand over orders to couriers or to the next stage."
+  },
+  "WhoCanBeHub": {
+    "title": "Who can become a hub",
+    "titlePrefix": "Who can become a ",
+    "titleHighlight": "hub",
+    "card1Title": "Suitable premises",
+    "card1Desc": "Premises for receiving and sorting goods.",
+    "card2Title": "Internet and staff",
+    "card2Desc": "Basic equipment and one or more employees.",
+    "card3Title": "Simple workflow",
+    "card3Desc": "All operations are managed through the application."
+  },
+  "WhyJoinBananayHub": {
+    "title": "Why join Bananay Hub",
+    "benefit1": "New source of income",
+    "benefit2": "Simple warehouse workflow",
+    "benefit3": "Transparent processing stages"
+  },
+  "HomeCta": {
+    "title": "Ready to get started?",
+    "button": "Start working"
+  },
   "Auth": {
     "driver": {
       "title": "Sign in with phone",
@@ -363,6 +393,8 @@
     "smartScanNoNextAction": "No next action is available for this QR",
     "smartScanTransitionDone": "Status updated successfully",
     "smartScanTransitionError": "Failed to move QR to the next status",
+    "courierHandoverCard": "Courier handover",
+    "courierHandoverCardDescription": "Scan box QR and hand it over to a courier",
     "currentCard": "DC internal operations",
     "currentCardDescription": "Scan and move item points through stages",
     "historyCard": "History",
@@ -529,7 +561,8 @@
       "received": "Received orders",
       "sentToSorting": "Sent to sorting",
       "sorted": "Sorted orders",
-      "issued": "Issued orders"
+      "issued": "Issued orders",
+      "delivered": "Delivered to point"
     },
     "placeholderTitle": "Section in progress",
     "placeholderDescription": "This tab is empty for now, data will appear soon.",
@@ -554,15 +587,43 @@
       "receivedAtDc": "Received at DC",
       "movedToSorting": "Sent to sorting",
       "sortedToZone": "Sorted by delivery zones",
-      "handedToCourier2": "Handed to courier"
+      "handedToCourier2": "Handed to courier",
+      "delivered": "Delivered to point"
     },
     "table": {
       "actor": "Who accepted",
+      "deliveredBy": "Who delivered",
       "sku": "What",
       "destination": "Where",
       "quantity": "How many",
       "qr": "QR",
-      "scannedAt": "When"
-    }
+      "scannedAt": "When",
+      "deliveredAt": "When delivered"
+    },
+    "emptyDeliveredTitle": "No delivered orders",
+    "emptyDeliveredDescription": "Delivered orders will appear here after courier confirms delivery to the final point.",
+    "unknownCourier": "Courier not specified"
+  },
+  "CourierHandover": {
+    "title": "Courier handover",
+    "subtitle": "Scan box QR to hand it over to a courier",
+    "back": "Back",
+    "scanButton": "Scan box QR",
+    "scanning": "Scanning...",
+    "confirming": "Handing over...",
+    "confirmHandover": "Confirm handover",
+    "cancel": "Cancel",
+    "courierLabel": "Courier",
+    "orderLabel": "Order",
+    "phoneLabel": "Phone",
+    "noName": "Name not set",
+    "confirmTitle": "Hand over to courier?",
+    "confirmDescription": "Make sure the courier in front of you matches the details below.",
+    "successToast": "Box handed over to courier",
+    "errorNotFound": "Box not found or no courier assigned",
+    "errorHandover": "Failed to hand over box",
+    "scanAnother": "Scan another",
+    "doneTitle": "Done!",
+    "doneDescription": "Box handed to courier. Order is on its way to the recipient."
   }
 }

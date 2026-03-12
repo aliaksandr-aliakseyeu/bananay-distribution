@@ -11,8 +11,8 @@ export default function DashboardVehiclesPage() {
 
   return (
     <RequireDriverAuth>
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-4 mb-6">
             <BackButton href="/dashboard">{tOnboarding('back')}</BackButton>
             <div>

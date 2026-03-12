@@ -7,6 +7,18 @@ export type DcItemPhase =
   | 'sorted_to_zone'
   | 'handed_to_courier2';
 
+export interface CourierHandoverInfo {
+  task_id: number;
+  item_point_id: number;
+  qr_token: string;
+  order_id: number | null;
+  order_number: string | null;
+  courier_id: string;
+  courier_name: string | null;
+  courier_phone: string;
+  courier_photo_media_id: string | null;
+}
+
 export interface DcProfile {
   id: string;
   phone_e164: string;
@@ -90,6 +102,19 @@ export interface DcHistoryEvent {
   payload: Record<string, unknown> | null;
 }
 
+export interface DcDeliveredEvent {
+  task_id: number;
+  delivered_at: string;
+  courier_name: string | null;
+  qr_token: string;
+  delivery_order_item_point_id: number;
+  order_id: number;
+  order_number: string | null;
+  delivery_point_name: string | null;
+  sku_name: string | null;
+  quantity: number | null;
+}
+
 export interface DcReceivingOrder {
   order_id: number;
   order_number: string | null;
@@ -143,6 +168,8 @@ export const dcApi = {
     dcApiClient.get<DcOperationDetails>(`${BASE}/operations/${operationId}`),
   getHistoryEvents: (phase: DcItemPhase) =>
     dcApiClient.get<DcHistoryEvent[]>(`${BASE}/history/events?phase=${phase}`),
+  getHistoryDelivered: () =>
+    dcApiClient.get<DcDeliveredEvent[]>(`${BASE}/history/delivered`),
   getReceivingOrders: () =>
     dcApiClient.get<DcReceivingOrder[]>(`${BASE}/receiving/orders`),
   scanReceiveForOrder: (orderId: number, qr_token: string, operation_id?: string) =>
@@ -159,4 +186,7 @@ export const dcApi = {
     scan('scan-sort-to-zone', qr_token, operation_id),
   scanHandoverCourier2: (qr_token: string, operation_id?: string) =>
     scan('scan-handover-courier2', qr_token, operation_id),
+
+  getCourierInfoByQr: (qr_token: string) =>
+    dcApiClient.get<CourierHandoverInfo>(`${BASE}/boxes/courier-info?qr_token=${encodeURIComponent(qr_token)}`),
 };

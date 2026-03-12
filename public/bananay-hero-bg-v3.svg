@@ -1,0 +1,52 @@
+<svg width="1920" height="560" viewBox="0 0 1920 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- neutral gray background close to screenshot -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="52%" stop-color="#F6F8FB"/>
+      <stop offset="100%" stop-color="#F3F4F6"/>
+    </linearGradient>
+
+    <!-- soft blue haze centered around the headline area -->
+    <radialGradient id="headlineGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(1030 205) rotate(-6) scale(980 88)">
+      <stop offset="0%" stop-color="#DDEBFB" stop-opacity="0.52"/>
+      <stop offset="55%" stop-color="#E7F0FB" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#EDF3FA" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- very faint left extension -->
+    <radialGradient id="leftGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(390 245) rotate(-8) scale(470 70)">
+      <stop offset="0%" stop-color="#E5EEF9" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#EAF1FA" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- thin bright streak -->
+    <linearGradient id="streak" x1="80" y1="150" x2="1880" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="20%" stop-color="#FFFFFF" stop-opacity="0.22"/>
+      <stop offset="46%" stop-color="#FFFDF8" stop-opacity="0.82"/>
+      <stop offset="70%" stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="blur26" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+
+    <filter id="blur8" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <rect width="1920" height="560" fill="url(#bg)"/>
+
+  <!-- keep visual focus only around main title line -->
+  <ellipse cx="1030" cy="205" rx="980" ry="88" transform="rotate(-6 1030 205)" fill="url(#headlineGlow)" filter="url(#blur26)"/>
+  <ellipse cx="390" cy="245" rx="470" ry="70" transform="rotate(-8 390 245)" fill="url(#leftGlow)" filter="url(#blur26)"/>
+
+  <!-- bright thin line crossing the headline -->
+  <path d="M90 138 C 520 120, 1030 93, 1880 15" stroke="url(#streak)" stroke-width="4.8" stroke-linecap="round" filter="url(#blur8)"/>
+  <path d="M120 136 C 545 119, 1045 93, 1890 16" stroke="#FFFDF8" stroke-opacity="0.66" stroke-width="1.45" stroke-linecap="round"/>
+</svg>

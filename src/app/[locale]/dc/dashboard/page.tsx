@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/dialog';
 import { dcApi, type DcBox, type DcProfile } from '@/lib/api/dc';
 import { getAllowedActions, type DcActionOption } from '@/lib/dc-phase';
+import { CourierHandoverDialog } from '@/components/dc/courier-handover-dialog';
 import { Package, History, User, RefreshCw, PackageCheck, QrCode } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -40,6 +41,7 @@ export default function DcDashboardPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pending, setPending] = useState<{ item: DcBox; action: DcActionOption } | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [handoverQr, setHandoverQr] = useState<string | null>(null);
 
   const load = async (silent = false) => {
     try {
@@ -79,8 +81,14 @@ export default function DcDashboardPage() {
       toast.error(t('smartScanNoNextAction'));
       return;
     }
-    setPending({ item, action: allowed[0] });
+    const action = allowed[0];
     setScanOpen(false);
+    // Courier handover → show courier info dialog instead of generic confirm
+    if (action.key === 'scanHandoverCourier2') {
+      setHandoverQr(item.qr_token);
+      return;
+    }
+    setPending({ item, action });
     setConfirmOpen(true);
   };
 
@@ -92,8 +100,6 @@ export default function DcDashboardPage() {
         await dcApi.scanMoveToSorting(pending.item.qr_token);
       } else if (pending.action.key === 'scanSortToZone') {
         await dcApi.scanSortToZone(pending.item.qr_token);
-      } else if (pending.action.key === 'scanHandoverCourier2') {
-        await dcApi.scanHandoverCourier2(pending.item.qr_token);
       } else {
         await dcApi.scanReceive(pending.item.qr_token);
       }
@@ -122,8 +128,8 @@ export default function DcDashboardPage() {
 
   return (
     <RequireDcAuth>
-      <div className="bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
             <p className="text-gray-600 mt-2">{t('subtitle')}</p>
@@ -297,6 +303,16 @@ export default function DcDashboardPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <CourierHandoverDialog
+        qrToken={handoverQr}
+        onClose={() => setHandoverQr(null)}
+        onSuccess={() => {
+          toast.success(t('smartScanTransitionDone'));
+          refreshStatus();
+          setScanOpen(true);
+        }}
+      />
     </RequireDcAuth>
   );
 }

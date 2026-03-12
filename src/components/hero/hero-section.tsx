@@ -9,8 +9,13 @@ export function HeroSection() {
   const router = useRouter();
 
   return (
-    <section className="relative py-12 md:py-16 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="hero-section relative overflow-hidden py-8 md:py-10">
+      <div className="hero-accent" aria-hidden="true">
+        <span className="hero-accent__glow" />
+        <span className="hero-accent__line hero-accent__line--1" />
+        <span className="hero-accent__line hero-accent__line--2" />
+      </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center space-y-6">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#1e3a8a] leading-tight">
             {t('title')}
@@ -22,7 +27,7 @@ export function HeroSection() {
             <Button
               size="lg"
               className="bg-[#1e3a8a] hover:bg-[#1e40af] text-white px-6 py-5"
-              onClick={() => router.push('/login')}
+              onClick={() => router.push('/dc/login')}
             >
               {t('signInButton')}
             </Button>
@@ -30,7 +35,7 @@ export function HeroSection() {
               size="lg"
               variant="secondary"
               className="bg-[#f97316] hover:bg-[#ea580c] text-white px-6 py-5"
-              onClick={() => router.push('/login')}
+              onClick={() => router.push('/dc/login')}
             >
               {t('registerButton')}
             </Button>
