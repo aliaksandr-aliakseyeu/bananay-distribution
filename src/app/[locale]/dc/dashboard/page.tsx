@@ -128,8 +128,8 @@ export default function DcDashboardPage() {
 
   return (
     <RequireDcAuth>
-      <div className="bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
             <p className="text-gray-600 mt-2">{t('subtitle')}</p>

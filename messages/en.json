@@ -11,6 +11,36 @@
     "signInButton": "Sign in",
     "registerButton": "Start working"
   },
+  "HowItWorks": {
+    "title": "How it works",
+    "step1Title": "Receive cargo",
+    "step1Desc": "Receive goods from drivers.",
+    "step2Title": "Sort and scan",
+    "step2Desc": "Process goods inside the hub.",
+    "step3Title": "Hand over for delivery",
+    "step3Desc": "Hand over orders to couriers or to the next stage."
+  },
+  "WhoCanBeHub": {
+    "title": "Who can become a hub",
+    "titlePrefix": "Who can become a ",
+    "titleHighlight": "hub",
+    "card1Title": "Suitable premises",
+    "card1Desc": "Premises for receiving and sorting goods.",
+    "card2Title": "Internet and staff",
+    "card2Desc": "Basic equipment and one or more employees.",
+    "card3Title": "Simple workflow",
+    "card3Desc": "All operations are managed through the application."
+  },
+  "WhyJoinBananayHub": {
+    "title": "Why join Bananay Hub",
+    "benefit1": "New source of income",
+    "benefit2": "Simple warehouse workflow",
+    "benefit3": "Transparent processing stages"
+  },
+  "HomeCta": {
+    "title": "Ready to get started?",
+    "button": "Start working"
+  },
   "Auth": {
     "driver": {
       "title": "Sign in with phone",

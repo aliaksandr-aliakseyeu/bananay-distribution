@@ -69,8 +69,9 @@ export default function DcProfilePage() {
 
   return (
     <RequireDcAuth>
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
+          <div className="max-w-2xl">
           <div className="flex items-center gap-4 mb-6">
             <BackButton href="/dashboard">{t('back')}</BackButton>
             <div>
@@ -128,6 +129,7 @@ export default function DcProfilePage() {
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </RequireDcAuth>

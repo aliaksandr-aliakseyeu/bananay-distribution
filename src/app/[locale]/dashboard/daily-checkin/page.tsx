@@ -191,8 +191,9 @@ export default function DailyCheckInPage() {
   if (checkin?.status === 'pending_review') {
     return (
       <RequireDriverAuth>
-        <div className="bg-gray-50 min-h-screen">
-          <div className="max-w-lg mx-auto px-4 py-8">
+        <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
+            <div className="max-w-lg mx-auto">
             <div className="bg-white rounded-lg shadow-sm p-8 text-center">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
                 <Loader2 className="h-8 w-8 text-blue-600 animate-spin" />
@@ -207,6 +208,7 @@ export default function DailyCheckInPage() {
                 {t('backToDashboard')}
               </Button>
             </div>
+            </div>
           </div>
         </div>
       </RequireDriverAuth>
@@ -217,8 +219,9 @@ export default function DailyCheckInPage() {
   if (checkin?.status === 'approved') {
     return (
       <RequireDriverAuth>
-        <div className="bg-gray-50 min-h-screen">
-          <div className="max-w-lg mx-auto px-4 py-8">
+        <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
+            <div className="max-w-lg mx-auto">
             <div className="bg-white rounded-lg shadow-sm p-8 text-center">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
                 <CheckCircle className="h-8 w-8 text-green-600" />
@@ -233,6 +236,7 @@ export default function DailyCheckInPage() {
                 {t('backToDashboard')}
               </Button>
             </div>
+            </div>
           </div>
         </div>
       </RequireDriverAuth>
@@ -243,8 +247,9 @@ export default function DailyCheckInPage() {
   if (checkin?.status === 'rejected') {
     return (
       <RequireDriverAuth>
-        <div className="bg-gray-50 min-h-screen">
-          <div className="max-w-lg mx-auto px-4 py-8">
+        <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
+            <div className="max-w-lg mx-auto">
             <div className="bg-white rounded-lg shadow-sm p-8 text-center">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
                 <AlertCircle className="h-8 w-8 text-red-600" />
@@ -264,6 +269,7 @@ export default function DailyCheckInPage() {
                 {t('backToDashboard')}
               </Button>
             </div>
+            </div>
           </div>
         </div>
       </RequireDriverAuth>
@@ -274,8 +280,9 @@ export default function DailyCheckInPage() {
   if (!checkin) {
     return (
       <RequireDriverAuth>
-        <div className="bg-gray-50 min-h-screen">
-          <div className="max-w-lg mx-auto px-4 py-8">
+        <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
+            <div className="max-w-lg mx-auto">
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
               <p className="text-gray-600 mt-1">{t('selectVehicle')}</p>
@@ -319,6 +326,7 @@ export default function DailyCheckInPage() {
                 ))}
               </div>
             )}
+            </div>
           </div>
         </div>
       </RequireDriverAuth>
@@ -330,8 +338,9 @@ export default function DailyCheckInPage() {
 
   return (
     <RequireDriverAuth>
-      <div className="bg-gray-50 min-h-screen">
-        <div className="max-w-lg mx-auto px-4 py-8">
+      <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
+          <div className="max-w-lg mx-auto">
           {/* Header */}
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-2">
@@ -482,6 +491,7 @@ export default function DailyCheckInPage() {
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </RequireDriverAuth>

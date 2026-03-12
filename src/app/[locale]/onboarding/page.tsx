@@ -6,7 +6,7 @@ import { OnboardingContent } from '@/components/onboarding/onboarding-content';
 export default function OnboardingPage() {
   return (
     <RequireDriverAuth>
-      <div className="min-h-screen bg-gray-50">
+      <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
         <OnboardingContent showBackButton={true} />
       </div>
     </RequireDriverAuth>

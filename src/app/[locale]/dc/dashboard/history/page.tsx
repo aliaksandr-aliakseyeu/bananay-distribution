@@ -13,7 +13,7 @@ import { RefreshCw, History, PackageCheck, ChevronDown, ChevronUp } from 'lucide
 type HistoryTab = 'received' | 'sentToSorting' | 'sorted' | 'issued' | 'delivered';
 type DatePreset = 'all' | 'today' | 'yesterday' | '7d' | '30d' | 'custom';
 type SortOrder = 'newest' | 'oldest';
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 10;
 const TAB_PHASE_MAP: Record<Exclude<HistoryTab, 'delivered'>, DcItemPhase> = {
   received: 'received_at_dc',
   sentToSorting: 'moved_to_sorting',
@@ -319,8 +319,8 @@ export default function DcHistoryPage() {
 
   return (
     <RequireDcAuth>
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="w-full flex-1 flex flex-col min-h-0 bg-gray-50">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col min-h-0">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
             <div className="flex items-center gap-4">
               <BackButton href="/dashboard">{t('back')}</BackButton>
