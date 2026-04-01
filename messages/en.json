@@ -6,40 +6,48 @@
     "becomeDriver": "Become a driver"
   },
   "Hero": {
-    "title": "Distribution Center Application",
-    "subtitle": "Workplace for DC operators: receive, sort, and hand over goods through staged QR scans.",
+    "title": "Organize receiving, sorting, and handover across the Bananay network",
+    "subtitle": "Bananay connects producers, hubs, drivers, and couriers in one delivery system. At the hub, goods are received, sorted, prepared, and handed over through a clear flow and tracked stages.",
     "signInButton": "Sign in",
-    "registerButton": "Start working"
+    "registerButton": "Register"
   },
   "HowItWorks": {
-    "title": "How it works",
-    "step1Title": "Receive cargo",
-    "step1Desc": "Receive goods from drivers.",
-    "step2Title": "Sort and scan",
-    "step2Desc": "Process goods inside the hub.",
-    "step3Title": "Hand over for delivery",
-    "step3Desc": "Hand over orders to couriers or to the next stage."
+    "label": "How it works",
+    "title": "How hub operations work",
+    "subtitle": "The platform tracks receiving, processing, and handover stages inside the distribution point.",
+    "step1Title": "Receive goods",
+    "step1Desc": "Accept cargo from a producer or driver and register intake in the system.",
+    "step2Title": "Sort and prepare",
+    "step2Desc": "Process goods inside the hub and route them to the next stage.",
+    "step3Title": "Hand over to the next link",
+    "step3Desc": "Pass goods to a courier or the next participant, and close the stage in the app."
   },
   "WhoCanBeHub": {
     "title": "Who can become a hub",
     "titlePrefix": "Who can become a ",
     "titleHighlight": "hub",
-    "card1Title": "Suitable premises",
-    "card1Desc": "Premises for receiving and sorting goods.",
-    "card2Title": "Internet and staff",
-    "card2Desc": "Basic equipment and one or more employees.",
-    "card3Title": "Simple workflow",
-    "card3Desc": "All operations are managed through the application."
+    "card1Title": "Receiving point",
+    "card1Desc": "Space is available for receiving, sorting, and stage-based handover.",
+    "card2Title": "Operational readiness",
+    "card2Desc": "Staff and basic processes are ready for a regular supply flow.",
+    "card3Title": "App-based workflow",
+    "card3Desc": "All stages are tracked in the system with less manual coordination."
   },
   "WhyJoinBananayHub": {
-    "title": "Why join Bananay Hub",
-    "benefit1": "New source of income",
-    "benefit2": "Simple warehouse workflow",
-    "benefit3": "Transparent processing stages"
+    "label": "Benefits",
+    "title": "Why distribution centers like working with Bananay",
+    "benefit1": "Clear goods flow inside one system",
+    "benefit2": "Receiving and handover are tracked in the app",
+    "benefit3": "You see what arrives and what moves further",
+    "benefit4": "Work inside the regular Bananay network",
+    "benefit5": "Less manual coordination between stages"
   },
   "HomeCta": {
-    "title": "Ready to get started?",
-    "button": "Start working"
+    "title": "Connect to the Bananay distribution system",
+    "subtitle": "Register in the app or sign in if you are already working in the system.",
+    "buttonPrimary": "Register",
+    "buttonSecondary": "Sign in to the app",
+    "button": "Register"
   },
   "Auth": {
     "driver": {
