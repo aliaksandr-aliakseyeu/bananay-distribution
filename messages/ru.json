@@ -52,7 +52,7 @@
   "Auth": {
     "driver": {
       "title": "Вход по номеру телефона",
-      "description": "Введите номер — мы отправим код в Telegram или SMS",
+      "description": "Введите номер — код придёт в Telegram. Новый пользователь продолжит регистрацию после подтверждения.",
       "phone": "Номер телефона",
       "phonePlaceholder": "+7 900 123 45 67",
       "getCode": "Получить код",
@@ -75,12 +75,15 @@
     },
     "dc": {
       "title": "Вход по номеру телефона",
-      "description": "Введите номер — мы отправим одноразовый код",
+      "description": "Введите номер — код придёт в Telegram. Новый пользователь продолжит регистрацию после подтверждения.",
       "phone": "Номер телефона",
       "phonePlaceholder": "+7 900 123 45 67",
       "getCode": "Получить код",
       "code": "Код",
       "codePlaceholder": "0000",
+      "telegramCodeText": "Код для входа приходит в Telegram.",
+      "telegramBotPrefix": "Впервые? Откройте Telegram-бота",
+      "telegramBotSuffix": "и один раз отправьте ему свой номер телефона.",
       "submit": "Войти",
       "sendingCode": "Отправка...",
       "loggingIn": "Вход...",
@@ -100,8 +103,18 @@
     }
   },
   "Footer": {
-    "tagline": "Доставка для водителей. Bananay — связь производителей и логистики.",
-    "copyright": "© Bananay. Все права защищены."
+    "description": "Приложение для хабов: приёмка, обработка и передача товара по этапам.",
+    "otherRolesLabel": "Другие роли в сети",
+    "roles": {
+      "producer": "Производители",
+      "drivers": "Водители",
+      "distribution": "Хабы",
+      "courier": "Курьеры",
+      "retail": "Точки реализации"
+    },
+    "backHome": "На главную Bananay",
+    "contactsLabel": "Контакты",
+    "copyright": "© 2026 Bananay. Региональная логистика продуктов."
   },
   "LoginPage": {
     "title": "Bananay — для водителей",
@@ -363,8 +376,8 @@
     "scanTestSubmit": "Симулировать скан"
   },
   "DcLoginPage": {
-    "title": "Bananay - Распределительный центр",
-    "subtitle": "Вход для сотрудника РЦ",
+    "title": "Вход",
+    "subtitle": "Распределительный центр",
     "backHome": "← На главную"
   },
   "DcDashboard": {
