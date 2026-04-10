@@ -75,12 +75,15 @@
     },
     "dc": {
       "title": "Sign in with phone",
-      "description": "Enter your number — we'll send a one-time code",
+      "description": "Get your login code in Telegram.",
       "phone": "Phone number",
       "phonePlaceholder": "+1 234 567 8900",
       "getCode": "Get code",
       "code": "Code",
       "codePlaceholder": "0000",
+      "telegramCodeText": "Get your login code in Telegram.",
+      "telegramBotPrefix": "First time? Open Telegram bot",
+      "telegramBotSuffix": "and send your phone number once.",
       "submit": "Sign in",
       "sendingCode": "Sending...",
       "loggingIn": "Signing in...",
@@ -100,8 +103,18 @@
     }
   },
   "Footer": {
-    "tagline": "Delivery for drivers. Bananay — connecting producers and logistics.",
-    "copyright": "© Bananay. All rights reserved."
+    "description": "An app for hubs: receiving, processing, and handover across delivery stages.",
+    "otherRolesLabel": "Other roles in the network",
+    "roles": {
+      "producer": "Producers",
+      "drivers": "Drivers",
+      "distribution": "Hubs",
+      "courier": "Couriers",
+      "retail": "Retail points"
+    },
+    "backHome": "Back to Bananay home",
+    "contactsLabel": "Contacts",
+    "copyright": "© 2026 Bananay. Regional food logistics."
   },
   "LoginPage": {
     "title": "Bananay — for drivers",
@@ -363,8 +376,8 @@
     "scanTestSubmit": "Simulate scan"
   },
   "DcLoginPage": {
-    "title": "Bananay - Distribution Center",
-    "subtitle": "Sign in as a DC operator",
+    "title": "Sign in",
+    "subtitle": "Distribution center",
     "backHome": "← Back to home"
   },
   "DcDashboard": {
