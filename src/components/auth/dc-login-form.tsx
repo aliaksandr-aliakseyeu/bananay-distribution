@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from '@/i18n/routing';
+import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { useDcAuthStore } from '@/lib/stores/dc-auth-store';
 import { Button } from '@/components/ui/button';
@@ -130,18 +131,21 @@ export function DcLoginForm() {
           className="mt-1 h-[60px] text-[18px]"
         />
       </div>
-      <p className="text-[15px] text-gray-600">
-        {t('telegramBotPrefix')}{' '}
-        <a
-          href="https://t.me/bananay_otp_bot"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-medium text-[#1e3a8a] hover:underline"
-        >
-          @bananay_otp_bot
-        </a>{' '}
-        {t('telegramBotSuffix')}
-      </p>
+      <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-base leading-7 text-slate-700">
+        <div className="font-medium text-slate-950">{t('telegramBotMvpTitle')}</div>
+        <div className="mt-2">
+          {t('telegramBotPrefix')}{' '}
+          <a
+            href="https://t.me/bananay_otp_bot"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-blue-700 hover:underline"
+          >
+            @bananay_otp_bot
+          </a>{' '}
+          {t('telegramBotSuffix')}
+        </div>
+      </div>
       {error && (
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
@@ -155,6 +159,17 @@ export function DcLoginForm() {
       >
         {loading ? t('sendingCode') : t('getCode')}
       </Button>
+      <p className="text-xs leading-5 text-slate-500">
+        {t('consentPrefix')}{' '}
+        <Link href="/privacy-policy" className="font-medium text-[#1e3a8a] hover:underline">
+          {t('privacyPolicyLabel')}
+        </Link>{' '}
+        {t('consentAnd')}{' '}
+        <Link href="/user-agreement" className="font-medium text-[#1e3a8a] hover:underline">
+          {t('userAgreementLabel')}
+        </Link>
+        .
+      </p>
     </div>
   );
 }
