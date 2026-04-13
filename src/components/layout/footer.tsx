@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { getLocale, getTranslations } from 'next-intl/server';
-import { APP_NAME, getRoleFooterConfig } from '@/lib/site-config';
+import { getRoleFooterConfig } from '@/lib/site-config';
 
 export async function Footer() {
   const locale = await getLocale();
@@ -21,9 +21,6 @@ export async function Footer() {
                 className="h-8 w-auto object-contain object-center"
                 unoptimized
               />
-              <span className="mt-[3px] text-base font-medium italic text-[#3a9cf5] opacity-90">
-                {APP_NAME}
-              </span>
             </div>
 
             <p className="mt-2 max-w-xl text-[13px] leading-5 text-slate-500">
