@@ -24,12 +24,11 @@ export function Header() {
 
   const handleOpenLogin = () => {
     setIsMobileMenuOpen(false);
-    router.push('/login');
   };
 
   return (
     <header className="sticky top-0 z-[9999] w-full border-b bg-background/95 backdrop-blur overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
+      <div className="section-container flex h-16 items-center justify-between">
         <Link href={isAuthenticated ? '/dc/dashboard' : '/'} className="flex items-center gap-1 shrink-0">
           <Image
             src="/bananay-logo-transparent.png"
@@ -40,7 +39,7 @@ export function Header() {
             priority
             unoptimized
           />
-          <span className="text-base italic font-medium text-[#3a9cf5] opacity-90 mt-[3px]">{APP_NAME}</span>
+          <span className="brand-wordmark">{APP_NAME}</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-3">
@@ -51,7 +50,7 @@ export function Header() {
                 variant="ghost"
                 size="sm"
                 onClick={handleLogout}
-                className="font-semibold text-[var(--muted)] hover:text-red-600 hover:bg-red-50"
+                className="font-semibold text-muted hover:bg-red-50 hover:text-red-600"
               >
                 <span className="inline-flex items-center gap-1">
                   <LogOut className="h-4 w-4" />
@@ -62,10 +61,12 @@ export function Header() {
           ) : (
             <Button
               size="sm"
-              onClick={handleOpenLogin}
-              className="font-semibold bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white"
+              asChild
+              className="font-semibold"
             >
-              {t('signIn')}
+              <Link href="/login" onClick={handleOpenLogin}>
+                {t('signIn')}
+              </Link>
             </Button>
           )}
           <LanguageSwitcher />
@@ -107,13 +108,17 @@ export function Header() {
             ) : (
               <Button
                 size="sm"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  router.push('/login');
-                }}
-                className="w-full font-semibold bg-[var(--primary)] text-white"
+                asChild
+                className="w-full font-semibold"
               >
-                {t('signIn')}
+                <Link
+                  href="/login"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  {t('signIn')}
+                </Link>
               </Button>
             )}
             <LanguageSwitcher />

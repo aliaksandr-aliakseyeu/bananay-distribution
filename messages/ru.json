@@ -383,7 +383,8 @@
   "DcLoginPage": {
     "title": "Вход",
     "subtitle": "Распределительный центр",
-    "backHome": "← На главную"
+    "backHome": "← На главную",
+    "loading": "Загрузка..."
   },
   "DcDashboard": {
     "title": "Распределительный центр",

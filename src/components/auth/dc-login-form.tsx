@@ -1,75 +1,34 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from '@/i18n/routing';
-import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
-import { useDcAuthStore } from '@/lib/stores/dc-auth-store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { toast } from 'sonner';
-
-function normalizePhone(value: string): string {
-  const digits = value.replace(/\D/g, '');
-  if (value.trim().startsWith('+')) return '+' + digits;
-  if (digits.length >= 10 && digits.startsWith('7')) return '+' + digits;
-  if (digits.length >= 10 && digits.startsWith('8')) return '+7' + digits.slice(1);
-  return digits ? '+' + digits : value.trim();
-}
+import { AuthLegalConsent } from './auth-legal-consent';
+import { useDcOtpLogin } from './use-dc-otp-login';
 
 export function DcLoginForm() {
   const t = useTranslations('Auth.dc');
-  const router = useRouter();
-  const { verifyOtp, requestOtp } = useDcAuthStore();
-  const [phone, setPhone] = useState('');
-  const [code, setCode] = useState('');
-  const [step, setStep] = useState<'phone' | 'code'>('phone');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const phoneE164 = normalizePhone(phone);
-
-  const handleRequestOtp = async () => {
-    if (!phoneE164 || phoneE164.length < 10) {
-      setError(t('validation.phoneInvalid'));
-      return;
-    }
-    setError(null);
-    setLoading(true);
-    try {
-      await requestOtp(phoneE164);
-      setStep('code');
-      setCode('');
-      toast.success(t('toasts.codeSent'));
-    } catch (e) {
-      setError(e instanceof Error ? e.message : t('errors.requestOtpFailed'));
-      toast.error(t('errors.requestOtpFailed'));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerify = async () => {
-    const trimmed = code.replace(/\D/g, '');
-    if (trimmed.length !== 4) {
-      setError(t('validation.codeLength'));
-      return;
-    }
-    setError(null);
-    setLoading(true);
-    try {
-      await verifyOtp(phoneE164, trimmed);
-      router.replace('/dc/dashboard');
-      toast.success(t('toasts.loginSuccess'));
-    } catch (e) {
-      setError(e instanceof Error ? e.message : t('errors.verifyFailed'));
-      toast.error(t('errors.verifyFailed'));
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    phone,
+    setPhone,
+    code,
+    setCode,
+    step,
+    loading,
+    error,
+    handleRequestOtp,
+    handleVerify,
+    resetToPhoneStep,
+  } = useDcOtpLogin({
+    phoneInvalid: t('validation.phoneInvalid'),
+    codeLength: t('validation.codeLength'),
+    requestOtpFailed: t('errors.requestOtpFailed'),
+    verifyFailed: t('errors.verifyFailed'),
+    codeSentSuccess: t('toasts.codeSent'),
+    loginSuccess: t('toasts.loginSuccess'),
+  });
 
   if (step === 'code') {
     return (
@@ -98,16 +57,13 @@ export function DcLoginForm() {
             variant="outline"
             className="h-[60px] flex-1 text-[17px]"
             disabled={loading}
-            onClick={() => {
-              setStep('phone');
-              setError(null);
-            }}
+            onClick={resetToPhoneStep}
           >
             {t('backToPhone')}
           </Button>
           <Button
             type="button"
-            className="h-[60px] flex-1 bg-[#2b418f] text-[17px] font-semibold hover:bg-[#243778]"
+            className="h-[60px] flex-1 text-[17px] font-semibold"
             disabled={loading || code.replace(/\D/g, '').length !== 4}
             onClick={handleVerify}
           >
@@ -153,23 +109,18 @@ export function DcLoginForm() {
       )}
       <Button
         type="button"
-        className="h-[60px] w-full bg-[#1e3a8a] text-[17px] font-semibold hover:bg-[#1e40af]"
+        className="h-[60px] w-full text-[17px] font-semibold"
         disabled={loading || !phone.trim()}
         onClick={handleRequestOtp}
       >
         {loading ? t('sendingCode') : t('getCode')}
       </Button>
-      <p className="text-xs leading-5 text-slate-500">
-        {t('consentPrefix')}{' '}
-        <Link href="/privacy-policy" className="font-medium text-[#1e3a8a] hover:underline">
-          {t('privacyPolicyLabel')}
-        </Link>{' '}
-        {t('consentAnd')}{' '}
-        <Link href="/user-agreement" className="font-medium text-[#1e3a8a] hover:underline">
-          {t('userAgreementLabel')}
-        </Link>
-        .
-      </p>
+      <AuthLegalConsent
+        prefix={t('consentPrefix')}
+        andLabel={t('consentAnd')}
+        privacyPolicyLabel={t('privacyPolicyLabel')}
+        userAgreementLabel={t('userAgreementLabel')}
+      />
     </div>
   );
 }

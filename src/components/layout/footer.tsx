@@ -9,7 +9,7 @@ export async function Footer() {
 
   return (
     <footer className="border-t border-slate-200 bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 md:py-8 lg:px-8">
+      <div className="section-container py-6 md:py-8">
         <div className="grid gap-8 md:grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)] md:gap-12">
           <div className="max-w-xl">
             <div className="flex items-center gap-1">

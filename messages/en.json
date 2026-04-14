@@ -383,7 +383,8 @@
   "DcLoginPage": {
     "title": "Sign in",
     "subtitle": "Distribution center",
-    "backHome": "← Back to home"
+    "backHome": "← Back to home",
+    "loading": "Loading..."
   },
   "DcDashboard": {
     "title": "Distribution Center",
