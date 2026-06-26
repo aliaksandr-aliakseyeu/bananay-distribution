@@ -78,7 +78,7 @@
       "description": "Enter your phone number - we'll send a login code. If this is your first time here, your account will be created automatically after verification.",
       "telegramBotMvpTitle": "To get a code in the MVP",
       "phone": "Phone number",
-      "phonePlaceholder": "+1 234 567 8900",
+      "phonePlaceholder": "+995 555 123 456",
       "getCode": "Get code",
       "code": "Code",
       "codePlaceholder": "0000",
@@ -122,7 +122,7 @@
     "copyright": "© 2026 Bananay. Regional food logistics."
   },
   "LoginPage": {
-    "title": "Bananay — for drivers",
+    "title": "Bananay — for hubs",
     "subtitle": "Sign in with your phone number",
     "backHome": "← Back to home"
   },

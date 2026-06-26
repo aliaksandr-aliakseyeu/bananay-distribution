@@ -2,8 +2,8 @@ import { defineRouting } from 'next-intl/routing';
 import { createNavigation } from 'next-intl/navigation';
 
 export const routing = defineRouting({
-  locales: ['en', 'ru'],
-  defaultLocale: 'ru',
+  locales: ['en', 'ka', 'ru'],
+  defaultLocale: 'en',
   pathnames: {
     '/': '/',
     '/login': '/login',
@@ -20,6 +20,7 @@ export const routing = defineRouting({
     '/dc/dashboard/current': '/dc/dashboard/current',
     '/dc/dashboard/history': '/dc/dashboard/history',
     '/dc/dashboard/profile': '/dc/dashboard/profile',
+    '/dc/dashboard/courier-handover': '/dc/dashboard/courier-handover',
     '/dashboard/daily-checkin': '/dashboard/daily-checkin',
     '/dashboard/vehicles': '/dashboard/vehicles',
     '/dashboard/documents': '/dashboard/documents',
