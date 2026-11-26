@@ -43,7 +43,7 @@ jobs:
           containerAppName: bananay-distribution
           resourceGroup: Bananay
           imageToBuild: bananayregistry-dxbhdveghzcwh5fw.azurecr.io/bananay-distribution:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
+          buildArguments: |
+            NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
 
 
