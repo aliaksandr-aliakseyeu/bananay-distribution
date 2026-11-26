@@ -15,7 +15,7 @@ export function DistributionWhyJoinSection() {
       <div className="absolute inset-0">
         <div className="absolute bottom-0 left-1/2 top-0 w-full max-w-7xl -translate-x-1/2 overflow-hidden px-6">
           <Image
-            src="/img.png"
+            src="/img.webp"
             alt=""
             fill
             className="object-contain object-right"
